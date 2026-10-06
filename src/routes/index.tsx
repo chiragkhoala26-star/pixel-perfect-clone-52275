@@ -20,7 +20,7 @@ type Result = {
   message?: string;
   stage?: string;
   data?: Record<string, string>;
-  globalApi?: { status: string; httpStatus?: number; error?: string };
+  globalApi?: { status: string; httpStatus?: number; error?: string; response?: unknown };
   excel?: { filename: string; base64: string };
 };
 
@@ -103,11 +103,18 @@ function Index() {
             </table>
           )}
           {res.globalApi && (
-            <p>
-              <strong>Global API:</strong> {res.globalApi.status}
-              {res.globalApi.httpStatus ? ` (HTTP ${res.globalApi.httpStatus})` : ""}
-              {res.globalApi.error ? ` — ${res.globalApi.error}` : ""}
-            </p>
+            <div className="space-y-1">
+              <p>
+                <strong>Global API:</strong> {res.globalApi.status}
+                {res.globalApi.httpStatus ? ` (HTTP ${res.globalApi.httpStatus})` : ""}
+                {res.globalApi.error ? ` — ${res.globalApi.error}` : ""}
+              </p>
+              {res.globalApi.response != null && (
+                <pre className="overflow-auto rounded-md bg-muted p-3 text-xs">
+                  {JSON.stringify(res.globalApi.response, null, 2)}
+                </pre>
+              )}
+            </div>
           )}
           {res.excel && (
             <button onClick={download} className="rounded-md border border-border px-4 py-2 font-medium">
