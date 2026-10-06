@@ -39,12 +39,13 @@ export const Route = createFileRoute("/api/process-pdf")({
           return err("excel", "Excel generation failed", 500, { data });
         }
 
-        const globalApi = await sendToGlobalApi(data);
+        const excelFile = { filename: `transaction_${data.transaction_id}.xlsx`, base64: excel };
+        const globalApi = await sendToGlobalApi(data, excelFile, new URL(request.url).origin);
         return Response.json({
           status: globalApi.status === "success" ? "success" : "partial",
           data,
           globalApi,
-          excel: { filename: `transaction_${data.transaction_id}.xlsx`, base64: excel },
+          excel: excelFile,
         });
       },
     },

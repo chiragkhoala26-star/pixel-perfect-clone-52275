@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiProcessPdfRouteImport } from './routes/api/process-pdf'
+import { Route as ApiPublicGlobalApiMockRouteImport } from './routes/api/public/global-api-mock'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,40 @@ const ApiProcessPdfRoute = ApiProcessPdfRouteImport.update({
   path: '/api/process-pdf',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicGlobalApiMockRoute = ApiPublicGlobalApiMockRouteImport.update({
+  id: '/api/public/global-api-mock',
+  path: '/api/public/global-api-mock',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/api/process-pdf': typeof ApiProcessPdfRoute
+  '/api/public/global-api-mock': typeof ApiPublicGlobalApiMockRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api/process-pdf': typeof ApiProcessPdfRoute
+  '/api/public/global-api-mock': typeof ApiPublicGlobalApiMockRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/api/process-pdf': typeof ApiProcessPdfRoute
+  '/api/public/global-api-mock': typeof ApiPublicGlobalApiMockRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/process-pdf'
+  fullPaths: '/' | '/api/process-pdf' | '/api/public/global-api-mock'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/process-pdf'
-  id: '__root__' | '/' | '/api/process-pdf'
+  to: '/' | '/api/process-pdf' | '/api/public/global-api-mock'
+  id: '__root__' | '/' | '/api/process-pdf' | '/api/public/global-api-mock'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ApiProcessPdfRoute: typeof ApiProcessPdfRoute
+  ApiPublicGlobalApiMockRoute: typeof ApiPublicGlobalApiMockRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiProcessPdfRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/global-api-mock': {
+      id: '/api/public/global-api-mock'
+      path: '/api/public/global-api-mock'
+      fullPath: '/api/public/global-api-mock'
+      preLoaderRoute: typeof ApiPublicGlobalApiMockRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ApiProcessPdfRoute: ApiProcessPdfRoute,
+  ApiPublicGlobalApiMockRoute: ApiPublicGlobalApiMockRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
