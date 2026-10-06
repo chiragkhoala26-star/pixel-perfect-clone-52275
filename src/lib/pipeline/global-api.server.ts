@@ -1,6 +1,6 @@
 import type { Transaction } from "./extract.server";
 
-export type GlobalApiResult = { status: "success" | "failed" | "not_configured"; httpStatus?: number; response?: unknown; error?: string };
+export type GlobalApiResult = { status: "success" | "failed" | "not_configured"; httpStatus?: number; response?: unknown; error?: string | undefined };
 
 // Replace this module to change the Global Application API integration.
 export async function sendToGlobalApi(t: Transaction): Promise<GlobalApiResult> {
