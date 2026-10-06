@@ -6,6 +6,8 @@ export const FIELDS = [
   "loan_type",
   "business_unit",
   "opportunity_id",
+  "trade_fee",
+  "cash_balance",
 ] as const;
 export type Transaction = Record<(typeof FIELDS)[number], string>;
 
@@ -24,7 +26,7 @@ export async function extractTransaction(pdf: ArrayBuffer): Promise<Partial<Tran
           content: [
             {
               type: "text",
-              text: `Extract these fields from the transaction PDF: ${FIELDS.join(", ")}. Use empty string if a field is not found. loan_amount as plain number string.`,
+              text: `Extract these fields from the transaction PDF: ${FIELDS.join(", ")}. Use empty string if a field is not found. loan_amount, trade_fee and cash_balance as plain number strings.`,
             },
             { type: "file", file: { filename: "doc.pdf", file_data: `data:application/pdf;base64,${b64}` } },
           ],
